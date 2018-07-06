@@ -28,7 +28,7 @@ func Start(sc *core.ServerConfiguration) {
 				})
 				for range sc.CleanUpTicker.C {
 					tickTime := time.Now()
-					log.Printf("Starting [tickID: %v]\n", tickTime)
+					log.Printf("[tickID: %v] Started\n", tickTime)
 					stepNum := 0
 					filepath.Walk(absolutePath, func(path string, info os.FileInfo, err error) error {
 						stepNum = stepNum + 1
@@ -62,7 +62,7 @@ func Start(sc *core.ServerConfiguration) {
 						}
 						return nil
 					})
-					log.Printf("Finished [tickID: %v] in [%v] steps\n", tickTime, stepNum)
+					log.Printf("[tickID: %v] Finished in [%v] steps\n", tickTime, stepNum)
 				}
 			} else {
 				log.Printf("Error Starting File Cleaner - Invalid walk path [%s]", absolutePath)
