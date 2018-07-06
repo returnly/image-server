@@ -33,11 +33,13 @@ func Start(sc *core.ServerConfiguration) {
 					filepath.Walk(absolutePath, func(path string, info os.FileInfo, err error) error {
 						stepNum = stepNum + 1
 						if err != nil {
+							log.Printf("[tickID: %v] Error deleting file [%s]\n", tickTime, path)
 							return err
 						}
 						if info.IsDir() {
 							empty, err := IsDirectoryEmpty(path)
 							if err != nil {
+								log.Printf("[tickID: %v] Error deleting file [%s]\n", tickTime, path)
 								return err
 							}
 							if empty && absolutePath != path {
