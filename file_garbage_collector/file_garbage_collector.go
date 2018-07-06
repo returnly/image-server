@@ -30,33 +30,34 @@ func Start(sc *core.ServerConfiguration) {
 					tickTime := time.Now()
 					log.Printf("[tickID: %v] Started\n", tickTime)
 					stepNum := 0
+					pStepNum := &stepNum
 					filepath.Walk(absolutePath, func(path string, info os.FileInfo, err error) error {
-						stepNum = stepNum + 1
+						*pStepNum = *pStepNum + 1
 						if err != nil {
-							log.Printf("[tickID: %v] Error walking path [%s]\n", tickTime, path)
+							log.Printf("[tickID: %v] Error walking path [%s] step [%v]\n", tickTime, path, *pStepNum)
 							return err
 						}
 						if info.IsDir() {
 							empty, err := IsDirectoryEmpty(path)
 							if err != nil {
-								log.Printf("[tickID: %v] Error determining if directory is empty [%s]\n", tickTime, path)
+								log.Printf("[tickID: %v] Error determining if directory is empty [%s] step [%v]\n", tickTime, path, *pStepNum)
 								return err
 							}
 							if empty && absolutePath != path {
 								age := tickTime.Sub(info.ModTime())
-								log.Printf("[tickID: %v] Deleting directory [%s] size [%d] modTime [%s] age [%s]\n", tickTime, path, info.Size(), info.ModTime(), age)
+								log.Printf("[tickID: %v] Deleting directory [%s] size [%d] modTime [%s] age [%s] step [%v]\n", tickTime, path, info.Size(), info.ModTime(), age, *pStepNum)
 								var err = os.Remove(path)
 								if err != nil {
-									log.Printf("[tickID: %v] Error deleting directory [%s]\n", tickTime, path)
+									log.Printf("[tickID: %v] Error deleting directory [%s] step [%v]\n", tickTime, path, *pStepNum)
 								}
 							}
 						} else {
 							age := tickTime.Sub(info.ModTime())
 							if age > sc.MaxFileAge {
-								log.Printf("[tickID: %v] Deleting file [%s] size [%d] modTime [%s] age [%s]\n", tickTime, path, info.Size(), info.ModTime(), age)
+								log.Printf("[tickID: %v] Deleting file [%s] size [%d] modTime [%s] age [%s] step [%v]\n", tickTime, path, info.Size(), info.ModTime(), age, *pStepNum)
 								var err = os.Remove(path)
 								if err != nil {
-									log.Printf("[tickID: %v] Error deleting file [%s]\n", tickTime, path)
+									log.Printf("[tickID: %v] Error deleting file [%s] step [%v]\n", tickTime, path, *pStepNum)
 								}
 							}
 						}
