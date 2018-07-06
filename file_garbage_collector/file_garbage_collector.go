@@ -31,6 +31,8 @@ func Start(sc *core.ServerConfiguration) {
 					log.Printf("[tickID: %v] Started\n", tickTime)
 					stepNum := 0
 					pStepNum := &stepNum
+					var pathsToDelete []string
+					pPathsToDelete := &pathsToDelete
 					filepath.Walk(absolutePath, func(path string, info os.FileInfo, err error) error {
 						*pStepNum = *pStepNum + 1
 						if err != nil {
@@ -45,24 +47,26 @@ func Start(sc *core.ServerConfiguration) {
 							}
 							if empty && absolutePath != path {
 								age := tickTime.Sub(info.ModTime())
-								log.Printf("[tickID: %v] Deleting directory [%s] size [%d] modTime [%s] age [%s] step [%v]\n", tickTime, path, info.Size(), info.ModTime(), age, *pStepNum)
-								var err = os.Remove(path)
-								if err != nil {
-									log.Printf("[tickID: %v] Error deleting directory [%s] step [%v]\n", tickTime, path, *pStepNum)
-								}
+								log.Printf("[tickID: %v] Marking deletion of directory [%s] size [%d] modTime [%s] age [%s] step [%v]\n", tickTime, path, info.Size(), info.ModTime(), age, *pStepNum)
+								*pPathsToDelete = append(*pPathsToDelete, path)
 							}
 						} else {
 							age := tickTime.Sub(info.ModTime())
 							if age > sc.MaxFileAge {
-								log.Printf("[tickID: %v] Deleting file [%s] size [%d] modTime [%s] age [%s] step [%v]\n", tickTime, path, info.Size(), info.ModTime(), age, *pStepNum)
-								var err = os.Remove(path)
-								if err != nil {
-									log.Printf("[tickID: %v] Error deleting file [%s] step [%v]\n", tickTime, path, *pStepNum)
-								}
+								log.Printf("[tickID: %v] Marking deletion of file [%s] size [%d] modTime [%s] age [%s] step [%v]\n", tickTime, path, info.Size(), info.ModTime(), age, *pStepNum)
+								*pPathsToDelete = append(*pPathsToDelete, path)
 							}
 						}
 						return nil
 					})
+					log.Printf("[tickID: %v] Preparing to delete [%v] items\n", tickTime, len(pathsToDelete))
+					for _, path := range pathsToDelete {
+						err = os.Remove(path)
+						if err != nil {
+							log.Printf("[tickID: %v] Error deleting [%s]\n", tickTime, path)
+						}
+					}
+
 					log.Printf("[tickID: %v] Finished in [%v] steps\n", tickTime, stepNum)
 				}
 			} else {
