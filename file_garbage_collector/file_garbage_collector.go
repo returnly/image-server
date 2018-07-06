@@ -40,10 +40,13 @@ func Start(sc *core.ServerConfiguration) {
 							if err != nil {
 								return err
 							}
-							if empty {
+							if empty && absolutePath != path {
 								age := tickTime.Sub(info.ModTime())
 								log.Printf("[tickID: %v] Deleting directory [%s] size [%d] modTime [%s] age [%s]\n", tickTime, path, info.Size(), info.ModTime(), age)
-								os.Remove(path)
+								var err = os.Remove(path)
+								if err != nil {
+									log.Printf("[tickID: %v] Error deleting directory [%s]\n", tickTime, path)
+								}
 							}
 						} else {
 							age := tickTime.Sub(info.ModTime())
