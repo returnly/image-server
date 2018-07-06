@@ -125,12 +125,8 @@ func main() {
 	for _, cmd := range commands {
 		if cmd.Name() == args[0] && cmd.Run != nil {
 			cmd.Flag.Usage = func() { cmd.Usage() }
-			if cmd.CustomFlags {
-				args = args[1:]
-			} else {
-				cmd.Flag.Parse(args[1:])
-				args = cmd.Flag.Args()
-			}
+			cmd.Flag.Parse(args[1:])
+			args = cmd.Flag.Args()
 			cmd.Run(cmd, args)
 			exit()
 			return
@@ -215,7 +211,7 @@ func serverConfiguration() (*core.ServerConfiguration, error) {
 		Paths:   &paths.Paths{LocalBasePath: sc.LocalBasePath, RemoteBasePath: sc.RemoteBasePath, RemoteBaseURL: sc.RemoteBaseURL},
 	}
 	sc.Adapters = adapters
-	sc.CleanUpTicker = time.NewTicker(5 * time.Second)
+	sc.CleanUpTicker = time.NewTicker(2 * time.Minute)
 
 	return sc, nil
 }
