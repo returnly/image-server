@@ -1,6 +1,8 @@
 package prometheus
 
 import (
+	"fmt"
+
 	"github.com/image-server/image-server/core"
 	"github.com/image-server/image-server/logger"
 )
@@ -31,17 +33,17 @@ func (l *Logger) ImagePostingFailed() {
 
 // ImageProcessed posts an image processed metric
 func (l *Logger) ImageProcessed(ic *core.ImageConfiguration) {
-	l.metrics.imageProcessedMetric.WithLabelValues(ic.Format).Inc()
+	l.metrics.imageProcessedMetric.WithLabelValues(ic.Namespace, ic.Format, fmt.Sprint(ic.Quality)).Inc()
 }
 
 // ImageAlreadyProcessed posts an image already processed metric
 func (l *Logger) ImageAlreadyProcessed(ic *core.ImageConfiguration) {
-	l.metrics.imageAlreadyProcessedMetric.WithLabelValues(ic.Format).Inc()
+	l.metrics.imageAlreadyProcessedMetric.WithLabelValues(ic.Namespace, ic.Format, fmt.Sprint(ic.Quality)).Inc()
 }
 
 // ImageProcessedWithErrors posts an image processed with errors metric
 func (l *Logger) ImageProcessedWithErrors(ic *core.ImageConfiguration) {
-	l.metrics.imageProcessedWithErrorsMetric.WithLabelValues(ic.Format).Inc()
+	l.metrics.imageProcessedWithErrorsMetric.WithLabelValues(ic.Namespace, ic.Format, fmt.Sprint(ic.Quality)).Inc()
 }
 
 // AllImagesAlreadyProcessed posts an all images already processed metric

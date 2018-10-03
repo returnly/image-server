@@ -56,7 +56,7 @@ func CreateAndRegisterMetrics() *Metrics {
 			Name: "image_server_processing_version_ok_total",
 			Help: "Number of processed images",
 		},
-		[]string{"ic_format"},
+		[]string{"namespace", "format", "quality"},
 	)
 	prometheus.MustRegister(metrics.imageProcessedMetric)
 
@@ -65,7 +65,7 @@ func CreateAndRegisterMetrics() *Metrics {
 			Name: "image_server_processing_version_noop_total",
 			Help: "Number of already processed images",
 		},
-		[]string{"ic_format"},
+		[]string{"namespace", "format", "quality"},
 	)
 	prometheus.MustRegister(metrics.imageAlreadyProcessedMetric)
 
@@ -74,7 +74,7 @@ func CreateAndRegisterMetrics() *Metrics {
 			Name: "image_server_processing_version_failed_total",
 			Help: "Number of failed processed images",
 		},
-		[]string{"ic_format"},
+		[]string{"namespace", "format", "quality"},
 	)
 	prometheus.MustRegister(metrics.imageProcessedWithErrorsMetric)
 
