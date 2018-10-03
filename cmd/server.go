@@ -87,6 +87,8 @@ func init() {
 	serverCmd.Flags().IntVar(&config.statsdPort, "statsd_port", 8125, "Statsd port")
 	serverCmd.Flags().StringVar(&config.statsdPrefix, "statsd_prefix", "image_server.", "Statsd prefix")
 	serverCmd.Flags().BoolVar(&config.profile, "profile", false, "Enable pprof")
+	serverCmd.Flags().BoolVar(&config.enablePrometheusMetrics, "enable_prometheus_metrics", false, "Enable prometheus metrics")
+	serverCmd.Flags().BoolVar(&config.enableStatsd, "enable_statsd", false, "Enable statsd metrics")
 }
 
 func handleShutdownSignals() {
