@@ -1,6 +1,9 @@
 package prometheus
 
 import (
+	"runtime"
+
+	"github.com/image-server/image-server/core"
 	"github.com/prometheus/client_golang/prometheus"
 )
 
@@ -21,6 +24,16 @@ type Metrics struct {
 // CreateAndRegisterMetrics creates a struct of Metrics
 func CreateAndRegisterMetrics() *Metrics {
 	metrics := Metrics{}
+
+	buildInfo := prometheus.NewGaugeVec(
+		prometheus.GaugeOpts{
+			Name: "image_server_build_info",
+			Help: "Build information",
+		},
+		[]string{"go_version", "version", "git_hash", "build_time_stamp"},
+	)
+	prometheus.MustRegister(buildInfo)
+	buildInfo.WithLabelValues(runtime.Version(), core.VERSION, core.GitHash, core.BuildTimeStamp).Set(1)
 
 	metrics.imagePostedMetric = prometheus.NewCounter(
 		prometheus.CounterOpts{

@@ -3,29 +3,16 @@ package server
 import (
 	"log"
 	"net/http"
-	"sync/atomic"
 	"time"
 
-	"github.com/image-server/image-server/core"
 	"github.com/image-server/image-server/processor/cli"
 	"github.com/tylerb/graceful"
 	"github.com/unrolled/render"
 )
 
-// Stats store atomic values
-type Stats struct {
-	Current     uint64 `json:"current"`
-	TotalCount  uint64 `json:"total_count"`
-	FailedCount uint64 `json:"failed_count"`
-}
-
 // Status keeps the current state of the server
 type Status struct {
-	Version    string `json:"version"`
-	GitHash    string `json:"githash"`
-	BuildStamp string `json:"buildstamp"`
-	Message    string `json:"message"`
-	Posting    *Stats `json:"posting"`
+	Message string `json:"message"`
 }
 
 // ShuttingDown variable is used to note that the server is about to shut down.
@@ -52,22 +39,7 @@ func InitializeStatusServer(listen string, port string) {
 	srv.ListenAndServe()
 }
 
-// IncrCounter increments a given counter by 1
-func IncrCounter(addr *uint64) {
-	atomic.AddUint64(addr, 1)
-}
-
-// DecrCounter decrements a given counter by 1
-func DecrCounter(addr *uint64) {
-	atomic.AddUint64(addr, ^uint64(0))
-}
-
-var status = &Status{
-	Version:    core.VERSION,
-	GitHash:    core.GitHash,
-	BuildStamp: core.BuildStamp,
-	Posting:    &Stats{Current: 0, TotalCount: 0, FailedCount: 0},
-}
+var status = &Status{}
 
 // ServerStatus implements the http.Handler interface
 type ServerStatus struct{}
