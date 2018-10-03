@@ -65,8 +65,8 @@ var config configT
 
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
-	Use:   "",
-	Short: "Root command (empty) to avoid to have multiple main commands",
+	Use:   "image-server",
+	Short: "image-server is an image processing server",
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
