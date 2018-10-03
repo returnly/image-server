@@ -4,7 +4,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 )
 
-// ImageServerCollector the prometheus collector for the image server
+// Metrics is the structure that holds a reference to all the image-server metrics
 type Metrics struct {
 	imagePostedMetric               prometheus.Counter
 	imagePostingFailedMetric        prometheus.Counter
@@ -18,7 +18,7 @@ type Metrics struct {
 	originalDownloadSkippedMetric   prometheus.Counter
 }
 
-// CreateAndRegisterMetrics creates a struct of Prometheus Metrics
+// CreateAndRegisterMetrics creates a struct of Metrics
 func CreateAndRegisterMetrics() *Metrics {
 	metrics := Metrics{}
 
