@@ -54,5 +54,7 @@ func NewRouter(sc *core.ServerConfiguration) *mux.Router {
 
 	status := &ServerStatus{}
 	router.HandleFunc("/status_check", status.ServeHTTP)
+	router.HandleFunc("/probe/ready", status.ServeHTTP)
+	router.HandleFunc("/probe/live", status.ServeHTTP)
 	return router
 }
