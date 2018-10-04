@@ -14,7 +14,7 @@ import (
 
 // InitializeServer creates a new http server to handle image processing requests
 func InitializeServer(sc *core.ServerConfiguration, listen string, port string) {
-	go InitializeStatusServer(listen, "7002")
+	go InitializeAdminServer(listen, "7002")
 	log.Printf("starting server on http://%s:%s", listen, port)
 	router := NewRouter(sc)
 	n := negroni.Classic()
@@ -52,9 +52,7 @@ func NewRouter(sc *core.ServerConfiguration) *mux.Router {
 		BatchHandler(wr, req, sc)
 	}).Methods("GET").Name("batch")
 
-	status := &ServerStatus{}
-	router.HandleFunc("/status_check", status.ServeHTTP)
-	router.HandleFunc("/probe/ready", status.ServeHTTP)
-	router.HandleFunc("/probe/live", status.ServeHTTP)
+	admin := &AdminHandler{}
+	router.HandleFunc("/status_check", admin.ServeHTTP)
 	return router
 }
