@@ -7,6 +7,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/image-server/image-server/processor/cli"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/tylerb/graceful"
 	"github.com/unrolled/render"
 	"github.com/urfave/negroni"
@@ -34,6 +35,7 @@ func InitializeAdminServer(listen string, port string) {
 	admin := &AdminHandler{}
 	router.HandleFunc("/probe/ready", admin.ServeHTTP)
 	router.HandleFunc("/probe/live", admin.ServeHTTP)
+	router.Handle("/metrics", promhttp.Handler())
 
 	n := negroni.Classic()
 	n.UseHandler(router)

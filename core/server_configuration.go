@@ -7,29 +7,28 @@ import (
 
 // ServerConfiguration struct
 type ServerConfiguration struct {
-	WhitelistedExtensions   []string
-	MaximumWidth            int
-	LocalBasePath           string
-	RemoteBasePath          string
-	RemoteBaseURL           string
-	DefaultQuality          uint
-	UploaderConcurrency     uint
-	ProcessorConcurrency    uint
-	HTTPTimeout             time.Duration
-	Adapters                *Adapters
-	Outputs                 string
-	AWSAccessKeyID          string
-	AWSSecretKey            string
-	AWSBucket               string
-	AWSRegion               string
-	MantaURL                string
-	MantaUser               string
-	MantaKeyID              string
-	SDCIdentity             string
-	EnablePrometheusMetrics bool
-	UploaderType            string
-	CleanUpTicker           *time.Ticker
-	MaxFileAge              time.Duration
+	WhitelistedExtensions []string
+	MaximumWidth          int
+	LocalBasePath         string
+	RemoteBasePath        string
+	RemoteBaseURL         string
+	DefaultQuality        uint
+	UploaderConcurrency   uint
+	ProcessorConcurrency  uint
+	HTTPTimeout           time.Duration
+	Adapters              *Adapters
+	Outputs               string
+	AWSAccessKeyID        string
+	AWSSecretKey          string
+	AWSBucket             string
+	AWSRegion             string
+	MantaURL              string
+	MantaUser             string
+	MantaKeyID            string
+	SDCIdentity           string
+	UploaderType          string
+	CleanUpTicker         *time.Ticker
+	MaxFileAge            time.Duration
 }
 
 func (sc *ServerConfiguration) UploaderIsAws() bool {

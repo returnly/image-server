@@ -233,13 +233,7 @@ stats.image_server.original_unavailable
 
 ## Prometheus metrics
 
-To enable the prometheus collector and expose the prometheus metrics, use the flag `enable_prometheus_metrics`:
-
-```
-bin/images --enable_prometheus_metrics
-```
-
-The metrics will be exposed to the `/metrics` endpoint `localhost:6060/metrics`.
+Prometheus metrics are available on the admin port at `/metrics`
 
 
 ## Profiling

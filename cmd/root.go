@@ -51,12 +51,11 @@ type configT struct {
 	httpTimeout          int
 	gomaxprocs           int
 
-	enableStatsd            bool
-	statsdHost              string
-	statsdPort              int
-	statsdPrefix            string
-	profile                 bool
-	enablePrometheusMetrics bool
+	enableStatsd bool
+	statsdHost   string
+	statsdPort   int
+	statsdPrefix string
+	profile      bool
 
 	version bool
 }
@@ -83,9 +82,7 @@ func serverConfiguration() (*core.ServerConfiguration, error) {
 	if config.enableStatsd {
 		statsd.Enable(config.statsdHost, config.statsdPort, config.statsdPrefix)
 	}
-	if config.enablePrometheusMetrics {
-		prometheus.Enable()
-	}
+	prometheus.Enable()
 	logfile.Enable()
 
 	adapters := &core.Adapters{
@@ -146,9 +143,6 @@ func serverConfigurationFromConfig() *core.ServerConfiguration {
 		MantaUser:   config.mantaUser,
 		MantaKeyID:  config.mantaKeyID,
 		SDCIdentity: config.sdcIdentity,
-
-		// Prometheus monitoring
-		EnablePrometheusMetrics: config.enablePrometheusMetrics,
 
 		Outputs:             config.outputs,
 		DefaultQuality:      uint(config.defaultQuality),
