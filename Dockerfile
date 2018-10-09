@@ -8,7 +8,7 @@ COPY . .
 
 ARG SHORT_COMMIT_HASH
 
-RUN go build -ldflags="-X github.com/image-server/image-server/core.BuildTimeStamp=`date -u '+%Y-%m-%d_%I:%M:%S%p_%z'` -X github.com/image-server/image-server/core.GitHash=${SHORT_COMMIT_HASH}"
+RUN go build -ldflags="-X github.com/image-server/image-server/core.BuildTimestamp=`date -u '+%Y-%m-%d_%I:%M:%S%p_%z'` -X github.com/image-server/image-server/core.GitHash=${SHORT_COMMIT_HASH}"
 
 FROM alpine:3.6
 

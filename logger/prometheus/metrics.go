@@ -30,10 +30,10 @@ func CreateAndRegisterMetrics() *Metrics {
 			Name: "image_server_build_info",
 			Help: "Build information",
 		},
-		[]string{"go_version", "version", "git_hash", "build_time_stamp"},
+		[]string{"go_version", "version", "git_hash", "build_timestamp"},
 	)
 	prometheus.MustRegister(buildInfo)
-	buildInfo.WithLabelValues(runtime.Version(), core.VERSION, core.GitHash, core.BuildTimeStamp).Set(1)
+	buildInfo.WithLabelValues(runtime.Version(), core.VERSION, core.GitHash, core.BuildTimestamp).Set(1)
 
 	metrics.imagePostedMetric = prometheus.NewCounter(
 		prometheus.CounterOpts{
