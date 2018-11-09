@@ -1,4 +1,4 @@
-FROM golang:1.9-alpine3.6
+FROM golang:1.9-alpine3.7
 
 LABEL maintainer="Thomas Barton"
 
@@ -10,7 +10,7 @@ ARG SHORT_COMMIT_HASH
 
 RUN go build -ldflags="-X github.com/image-server/image-server/core.BuildTimestamp=`date -u '+%Y-%m-%d_%I:%M:%S%p_%z'` -X github.com/image-server/image-server/core.GitHash=${SHORT_COMMIT_HASH}"
 
-FROM alpine:3.6
+FROM alpine:3.7
 
 RUN apk add --no-cache imagemagick
 RUN apk add --no-cache ca-certificates
