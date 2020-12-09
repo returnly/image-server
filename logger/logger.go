@@ -1,6 +1,10 @@
 package logger
 
-import "github.com/image-server/image-server/core"
+import (
+	"time"
+
+	"github.com/image-server/image-server/core"
+)
 
 var Loggers []core.Logger
 
@@ -65,5 +69,11 @@ func OriginalDownloadFailed(source string) {
 func OriginalDownloadSkipped(source string) {
 	for _, logger := range Loggers {
 		go logger.OriginalDownloadSkipped(source)
+	}
+}
+
+func RequestLatency(handler string, duration time.Duration) {
+	for _, logger := range Loggers {
+		go logger.RequestLatency(handler, duration)
 	}
 }

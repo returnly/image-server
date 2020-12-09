@@ -1,5 +1,9 @@
 package core
 
+import (
+	"time"
+)
+
 type Adapters struct {
 	Fetcher Fetcher
 	Paths   Paths
@@ -20,6 +24,7 @@ type Logger interface {
 	OriginalDownloaded(source string, destination string)
 	OriginalDownloadFailed(source string)
 	OriginalDownloadSkipped(source string)
+	RequestLatency(handler string, duration time.Duration)
 }
 
 // Processor

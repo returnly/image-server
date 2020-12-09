@@ -67,6 +67,10 @@ func (l *Logger) OriginalDownloadSkipped(source string) {
 	l.track("fetch.original_download_skipped")
 }
 
+func (l *Logger) RequestLatency(handler string, duration time.Duration) {
+	l.statsd.Timing(fmt.Sprintf("%s.request_latency", handler), int64(duration.Seconds()))
+}
+
 func (l *Logger) track(name string) {
 	metric := fmt.Sprintf("%s_count", name)
 	l.statsd.Incr(metric, 1)
