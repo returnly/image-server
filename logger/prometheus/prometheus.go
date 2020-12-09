@@ -73,6 +73,6 @@ func (l *Logger) OriginalDownloadSkipped(source string) {
 }
 
 // RequestLatency adds the latency for a request
-func (l *Logger) RequestLatency(handler string, duration time.Duration) {
-	l.metrics.requestLatency.WithLabelValues(handler).Observe(duration.Seconds())
+func (l *Logger) RequestLatency(handler string, since time.Time) {
+	l.metrics.requestLatency.WithLabelValues(handler).Observe(time.Since(since).Seconds())
 }

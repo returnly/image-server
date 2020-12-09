@@ -4,9 +4,11 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/image-server/image-server/core"
+	"github.com/image-server/image-server/logger"
 	"github.com/image-server/image-server/parser"
 	"github.com/image-server/image-server/request"
 	"github.com/image-server/image-server/uploader"
@@ -17,6 +19,8 @@ import (
 // When an image is requested more than once, only one will do the processing,
 // and both requests will return the same output
 func ResizeHandler(w http.ResponseWriter, req *http.Request, sc *core.ServerConfiguration) {
+	defer logger.RequestLatency("resize_image", time.Now())
+
 	vars := mux.Vars(req)
 	filename := vars["filename"]
 

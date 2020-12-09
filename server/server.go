@@ -7,7 +7,6 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/image-server/image-server/core"
-	"github.com/image-server/image-server/logger"
 	"github.com/tylerb/graceful"
 	"github.com/urfave/negroni"
 )
@@ -27,39 +26,27 @@ func NewRouter(sc *core.ServerConfiguration) *mux.Router {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/{namespace:[a-z0-9_]+}", func(wr http.ResponseWriter, req *http.Request) {
-		start := time.Now()
 		NewImageHandler(wr, req, sc)
-		go logger.RequestLatency("new_image", time.Since(start))
 	}).Methods("POST").Name("newImage")
 
 	router.HandleFunc("/{namespace:[a-z0-9_]+}/{id1:[a-f0-9]{3}}/{id2:[a-f0-9]{3}}/{id3:[a-f0-9]{3}}/{id4:[a-f0-9]{23}}/process", func(wr http.ResponseWriter, req *http.Request) {
-		start := time.Now()
 		ResizeManyHandler(wr, req, sc)
-		go logger.RequestLatency("resize_many", time.Since(start))
 	}).Methods("POST").Name("resizeMany")
 
 	router.HandleFunc("/{namespace:[a-z0-9_]+}/{id1:[a-f0-9]{3}}/{id2:[a-f0-9]{3}}/{id3:[a-f0-9]{3}}/{id4:[a-f0-9]{23}}/{filename}", func(wr http.ResponseWriter, req *http.Request) {
-		start := time.Now()
 		ResizeHandler(wr, req, sc)
-		go logger.RequestLatency("resize_image", time.Since(start))
 	}).Methods("GET").Name("resizeImage")
 
 	router.HandleFunc("/{namespace:[a-z0-9_]+}/{id1:[a-f0-9]{3}}/{id2:[a-f0-9]{3}}/{id3:[a-f0-9]{3}}/{id4:[a-f0-9]{23}}/{filename}", func(wr http.ResponseWriter, req *http.Request) {
-		start := time.Now()
 		NewFileHandler(wr, req, sc)
-		go logger.RequestLatency("new_file", time.Since(start))
 	}).Methods("POST").Name("newFile")
 
 	router.HandleFunc("/{namespace:[a-z0-9_]+}/batch", func(wr http.ResponseWriter, req *http.Request) {
-		start := time.Now()
 		CreateBatchHandler(wr, req, sc)
-		go logger.RequestLatency("create_batch", time.Since(start))
 	}).Methods("POST").Name("createBatch")
 
 	router.HandleFunc("/{namespace:[a-z0-9_]+}/batch/{uuid:[a-f0-9-]{36}}", func(wr http.ResponseWriter, req *http.Request) {
-		start := time.Now()
 		BatchHandler(wr, req, sc)
-		go logger.RequestLatency("batch", time.Since(start))
 	}).Methods("GET").Name("batch")
 
 	admin := &AdminHandler{}

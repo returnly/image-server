@@ -72,8 +72,8 @@ func OriginalDownloadSkipped(source string) {
 	}
 }
 
-func RequestLatency(handler string, duration time.Duration) {
+func RequestLatency(handler string, since time.Time) {
 	for _, logger := range Loggers {
-		go logger.RequestLatency(handler, duration)
+		go logger.RequestLatency(handler, since)
 	}
 }

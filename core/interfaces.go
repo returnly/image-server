@@ -24,7 +24,7 @@ type Logger interface {
 	OriginalDownloaded(source string, destination string)
 	OriginalDownloadFailed(source string)
 	OriginalDownloadSkipped(source string)
-	RequestLatency(handler string, duration time.Duration)
+	RequestLatency(handler string, since time.Time)
 }
 
 // Processor

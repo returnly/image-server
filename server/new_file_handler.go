@@ -2,10 +2,12 @@ package server
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/golang/glog"
 	"github.com/gorilla/mux"
 	"github.com/image-server/image-server/core"
+	"github.com/image-server/image-server/logger"
 	"github.com/image-server/image-server/request"
 	"github.com/image-server/image-server/uploader"
 	"github.com/unrolled/render"
@@ -16,6 +18,8 @@ type NewFileResponse struct {
 
 // NewFileHandler handles posting new files
 func NewFileHandler(w http.ResponseWriter, req *http.Request, sc *core.ServerConfiguration) {
+	defer logger.RequestLatency("new_file", time.Now())
+
 	qs := req.URL.Query()
 	vars := mux.Vars(req)
 	sourceURL := qs.Get("source")

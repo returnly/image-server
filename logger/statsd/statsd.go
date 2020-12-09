@@ -67,8 +67,8 @@ func (l *Logger) OriginalDownloadSkipped(source string) {
 	l.track("fetch.original_download_skipped")
 }
 
-func (l *Logger) RequestLatency(handler string, duration time.Duration) {
-	l.statsd.Timing(fmt.Sprintf("%s.request_latency", handler), int64(duration.Seconds()))
+func (l *Logger) RequestLatency(handler string, since time.Time) {
+	l.statsd.Timing(fmt.Sprintf("%s.request_latency", handler), int64(time.Since(since).Seconds()))
 }
 
 func (l *Logger) track(name string) {

@@ -47,5 +47,5 @@ func (l *Logger) OriginalDownloadFailed(source string) {
 func (l *Logger) OriginalDownloadSkipped(source string) {
 }
 
-func (l *Logger) RequestLatency(handler string, duration time.Duration) {
+func (l *Logger) RequestLatency(handler string, since time.Time) {
 }

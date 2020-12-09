@@ -4,15 +4,19 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/image-server/image-server/core"
 	mantajob "github.com/image-server/image-server/job/manta"
+	"github.com/image-server/image-server/logger"
 	"github.com/image-server/image-server/uploader/manta/client"
 	"github.com/unrolled/render"
 )
 
 func CreateBatchHandler(w http.ResponseWriter, req *http.Request, sc *core.ServerConfiguration) {
+	defer logger.RequestLatency("create_batch", time.Now())
+
 	vars := mux.Vars(req)
 	namespace := vars["namespace"]
 
@@ -36,6 +40,8 @@ func CreateBatchHandler(w http.ResponseWriter, req *http.Request, sc *core.Serve
 }
 
 func BatchHandler(w http.ResponseWriter, req *http.Request, sc *core.ServerConfiguration) {
+	defer logger.RequestLatency("batch", time.Now())
+
 	vars := mux.Vars(req)
 	uuid := vars["uuid"]
 

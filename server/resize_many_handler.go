@@ -3,9 +3,11 @@ package server
 import (
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/image-server/image-server/core"
+	"github.com/image-server/image-server/logger"
 	"github.com/image-server/image-server/uploader"
 
 	"github.com/image-server/image-server/request"
@@ -16,6 +18,8 @@ import (
 // A listing will be requested to the uploader to determine what images are missing, and only
 // Images not already processed will be generated and uploaded
 func ResizeManyHandler(w http.ResponseWriter, req *http.Request, sc *core.ServerConfiguration) {
+	logger.RequestLatency("resize_many", time.Now())
+
 	qs := req.URL.Query()
 	vars := mux.Vars(req)
 
