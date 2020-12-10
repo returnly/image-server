@@ -1,6 +1,8 @@
 package logfile
 
 import (
+	"time"
+
 	"github.com/golang/glog"
 	"github.com/image-server/image-server/core"
 	"github.com/image-server/image-server/logger"
@@ -43,4 +45,7 @@ func (l *Logger) OriginalDownloadFailed(source string) {
 }
 
 func (l *Logger) OriginalDownloadSkipped(source string) {
+}
+
+func (l *Logger) RequestLatency(handler string, since time.Time) {
 }

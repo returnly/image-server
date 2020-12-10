@@ -2,6 +2,7 @@ package prometheus
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/image-server/image-server/core"
 	"github.com/image-server/image-server/logger"
@@ -69,4 +70,9 @@ func (l *Logger) OriginalDownloadFailed(source string) {
 // OriginalDownloadSkipped posts an original download skipped metric
 func (l *Logger) OriginalDownloadSkipped(source string) {
 	l.metrics.originalDownloadSkippedMetric.Inc()
+}
+
+// RequestLatency adds the latency for a request
+func (l *Logger) RequestLatency(handler string, since time.Time) {
+	l.metrics.requestLatency.WithLabelValues(handler).Observe(time.Since(since).Seconds())
 }

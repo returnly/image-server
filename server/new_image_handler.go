@@ -3,6 +3,7 @@ package server
 import (
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/golang/glog"
 	"github.com/gorilla/mux"
@@ -16,6 +17,7 @@ import (
 
 // NewImageHandler handles posting new images
 func NewImageHandler(w http.ResponseWriter, req *http.Request, sc *core.ServerConfiguration) {
+	defer logger.RequestLatency("new_image", time.Now())
 	go logger.ImagePosted()
 
 	qs := req.URL.Query()

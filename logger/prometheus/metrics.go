@@ -19,6 +19,7 @@ type Metrics struct {
 	originalDownloadedMetric        prometheus.Counter
 	originalDownloadFailedMetric    prometheus.Counter
 	originalDownloadSkippedMetric   prometheus.Counter
+	requestLatency                  *prometheus.HistogramVec
 }
 
 // CreateAndRegisterMetrics creates a struct of Metrics
@@ -118,6 +119,15 @@ func CreateAndRegisterMetrics() *Metrics {
 		},
 	)
 	prometheus.MustRegister(metrics.originalDownloadSkippedMetric)
+
+	metrics.requestLatency = prometheus.NewHistogramVec(
+		prometheus.HistogramOpts{
+			Name: "image_server_request_latency_seconds",
+			Help: "Latency for requests made towards the api",
+		},
+		[]string{"handler"},
+	)
+	prometheus.MustRegister(metrics.requestLatency)
 
 	return &metrics
 }
