@@ -51,6 +51,29 @@ func TestNewImageHandlerWithData(t *testing.T) {
 	deleteS3TestDirectory()
 }
 
+func TestNewImageHandlerWithSVG(t *testing.T) {
+	if !hasAwsAuthentication() {
+		return
+	}
+
+	deleteS3TestDirectory()
+	sc := buildTestS3ServerConfiguration()
+	uploader.Initialize(sc)
+
+	router := server.NewRouter(sc)
+	imagePath := "../test/images/beacon.svg"
+	request, err := newUploadRequest("/test_namespace", imagePath)
+	request.Header.Set("Content-Type", "image/svg+xml")
+	Ok(t, err)
+
+	response := httptest.NewRecorder()
+	router.ServeHTTP(response, request)
+	json := ReaderToString(response.Body)
+	Matches(t, "\"content_type\": \"image/svg+xml\"", json)
+	log.Println(response.Body)
+	deleteS3TestDirectory()
+}
+
 func TestNewImageHandlerWithS3(t *testing.T) {
 	if !hasAwsAuthentication() {
 		return
