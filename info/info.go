@@ -22,7 +22,7 @@ import (
 )
 
 type Info struct {
-	Path string
+	Path        string
 	ContentType string
 }
 

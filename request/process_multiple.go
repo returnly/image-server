@@ -18,7 +18,7 @@ type Request struct {
 	Hash                string
 	SourceURL           string
 	SourceData          io.ReadCloser
-	ContentType			string
+	ContentType         string
 	directoryListing    map[string]string
 }
 
