@@ -10,7 +10,7 @@ import (
 )
 
 func TestImageHash(t *testing.T) {
-	i := info.Info{"../test/images/a.jpg"}
+	i := info.Info{Path: "../test/images/a.jpg"}
 	expectedHash := "31e8b3187a9f63f26d58c88bf09a7bbd"
 	hash, err := i.FileHash()
 	Ok(t, err)
@@ -18,7 +18,7 @@ func TestImageHash(t *testing.T) {
 }
 
 func TestImageDetailsOnJPEG(t *testing.T) {
-	i := info.Info{"../test/images/a.jpg"}
+	i := info.Info{Path: "../test/images/a.jpg"}
 	imageDetails, err := i.ImageDetails()
 	expectedHash := "31e8b3187a9f63f26d58c88bf09a7bbd"
 	Ok(t, err)
@@ -29,7 +29,7 @@ func TestImageDetailsOnJPEG(t *testing.T) {
 }
 
 func TestImageDetailsOnJPEGUnsupported(t *testing.T) {
-	i := info.Info{"../test/images/unsupported.jpg"}
+	i := info.Info{Path: "../test/images/unsupported.jpg"}
 	imageDetails, err := i.ImageDetails()
 	expectedHash := "94899754878d302636308bfcb956c4c8"
 	Ok(t, err)
@@ -40,7 +40,7 @@ func TestImageDetailsOnJPEGUnsupported(t *testing.T) {
 }
 
 func TestImageDetailsOnPNG(t *testing.T) {
-	i := info.Info{"../test/images/a.png"}
+	i := info.Info{Path: "../test/images/a.png"}
 	imageDetails, err := i.ImageDetails()
 	expectedHash := "117813b6a51e74c77d0fc7d5de510f42"
 	Ok(t, err)
@@ -51,7 +51,7 @@ func TestImageDetailsOnPNG(t *testing.T) {
 }
 
 func TestImageDetailsOnWEBP(t *testing.T) {
-	i := info.Info{"../test/images/a.webp"}
+	i := info.Info{Path: "../test/images/a.webp"}
 	imageDetails, err := i.ImageDetails()
 	expectedHash := "2a9d1753531a2c060c002a97b983854c"
 	Ok(t, err)
@@ -62,7 +62,7 @@ func TestImageDetailsOnWEBP(t *testing.T) {
 }
 
 func TestImageDetailsOnWEBPWihtoutExtension(t *testing.T) {
-	i := info.Info{"../test/images/webp_without_ext"}
+	i := info.Info{Path: "../test/images/webp_without_ext"}
 	imageDetails, err := i.ImageDetails()
 	expectedHash := "2a9d1753531a2c060c002a97b983854c"
 	Ok(t, err)
@@ -70,6 +70,16 @@ func TestImageDetailsOnWEBPWihtoutExtension(t *testing.T) {
 	Equals(t, imageDetails.Height, 496)
 	Equals(t, imageDetails.Width, 574)
 	Equals(t, "image/webp", imageDetails.ContentType)
+}
+
+func TestImageDetailOnSvg(t *testing.T) {
+	i := info.Info{
+		Path: "../test/images/svg_without_ext",
+		ContentType: "image/svg+xml",
+	}
+	imageDetails, err := i.ImageDetails()
+	Ok(t, err)
+	Equals(t, "image/svg+xml", imageDetails.ContentType)
 }
 
 func TestImageDetailsToJSON(t *testing.T) {
