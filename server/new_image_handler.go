@@ -39,7 +39,7 @@ func NewImageHandler(w http.ResponseWriter, req *http.Request, sc *core.ServerCo
 		Paths:               sc.Adapters.Paths,
 		SourceURL:           sourceURL,
 		SourceData:          req.Body,
-		ContentType:  		 contentType,
+		ContentType:         contentType,
 	}
 
 	imageDetails, err := request.Create()
