@@ -25,6 +25,7 @@ func NewImageHandler(w http.ResponseWriter, req *http.Request, sc *core.ServerCo
 	sourceURL := qs.Get("source")
 	namespace := vars["namespace"]
 	outputs := []string{}
+	contentType := req.Header.Get("Content-Type")
 
 	if qs.Get("outputs") != "" {
 		outputs = strings.Split(qs.Get("outputs"), ",")
@@ -38,6 +39,7 @@ func NewImageHandler(w http.ResponseWriter, req *http.Request, sc *core.ServerCo
 		Paths:               sc.Adapters.Paths,
 		SourceURL:           sourceURL,
 		SourceData:          req.Body,
+		ContentType:         contentType,
 	}
 
 	imageDetails, err := request.Create()

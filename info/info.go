@@ -22,7 +22,8 @@ import (
 )
 
 type Info struct {
-	Path string
+	Path        string
+	ContentType string
 }
 
 func (i Info) FileHash() (hash string, err error) {
@@ -57,6 +58,11 @@ func (i Info) ImageDetails() (*ImageProperties, error) {
 				Height:      im.Height,
 				Width:       im.Width,
 				ContentType: contentType,
+			}
+		} else if i.ContentType == "image/svg+xml" {
+			// Imagemagick is unable to determine svg filetype without file format
+			details = &ImageProperties{
+				ContentType: i.ContentType,
 			}
 		} else {
 			// can't calculate content type, so will use ImageMagick as fallback

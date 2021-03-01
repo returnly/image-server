@@ -17,7 +17,7 @@ func (r *Request) Create() (*info.ImageProperties, error) {
 	if r.SourceURL != "" {
 		imageDetails, downloaded, err = f.Fetch(r.SourceURL, r.Namespace)
 	} else {
-		imageDetails, err = f.StoreBinary(r.SourceData, r.Namespace)
+		imageDetails, err = f.StoreBinary(r.SourceData, r.Namespace, r.ContentType)
 		downloaded = true
 	}
 

@@ -30,7 +30,7 @@ func (f *SourceFetcher) Fetch(url string, namespace string) (*info.ImageProperti
 	return r.ImageDetails, r.Downloaded, r.Error
 }
 
-func (f *SourceFetcher) StoreBinary(body io.ReadCloser, namespace string) (*info.ImageProperties, error) {
+func (f *SourceFetcher) StoreBinary(body io.ReadCloser, namespace string, contentType string) (*info.ImageProperties, error) {
 	tmpOriginalPath := f.Paths.RandomTempPath()
 	defer body.Close()
 
@@ -60,6 +60,7 @@ func (f *SourceFetcher) StoreBinary(body io.ReadCloser, namespace string) (*info
 	ensureDestinationDirectory(destination)
 	err = os.Rename(tmpOriginalPath, destination)
 	i.Path = destination
+	i.ContentType = contentType
 
 	return i.ImageDetails()
 }
