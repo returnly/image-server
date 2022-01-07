@@ -31,7 +31,10 @@ var serverCmd = &cobra.Command{
 		}
 
 		go initializeUploader(sc)
-		go file_garbage_collector.Start(sc)
+
+		if config.uploaderType != "noop" {
+		  go file_garbage_collector.Start(sc)
+		}
 
 		port := config.port
 		server.InitializeServer(sc, config.listen, port)
@@ -57,7 +60,7 @@ func init() {
 	serverCmd.Flags().StringVar(&config.remoteBasePath, "remote_base_path", "", "base path for cloud storage")
 
 	// Uploader
-	serverCmd.Flags().StringVar(&config.uploaderType, "uploader", "", "Uploader ['s3', 'manta']")
+	serverCmd.Flags().StringVar(&config.uploaderType, "uploader", "", "Uploader ['s3', 'manta', 'noop']")
 	serverCmd.Flags().IntVar(&config.maxFileAge, "max_file_age", 30, "Max file age in minutes")
 
 	// S3 uploader
