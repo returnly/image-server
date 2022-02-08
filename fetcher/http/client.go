@@ -44,13 +44,15 @@ func (c *Client) Get(urlStr string) (resp *http.Response, err error) {
 	p = slashReg.ReplaceAllString(p, "/")
 	u.Opaque = p
 
+	header := make(http.Header)
+	header.Add("user-agent", "image-server")
 	req := &http.Request{
 		Method:     "GET",
 		URL:        u,
 		Proto:      "HTTP/1.1",
 		ProtoMajor: 1,
 		ProtoMinor: 1,
-		Header:     make(http.Header),
+		Header:     header,
 		Host:       u.Host,
 	}
 
