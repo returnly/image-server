@@ -29,6 +29,7 @@ COPY --from=0 /go/src/github.com/image-server/image-server/image-server bin/imag
 RUN chmod 775 -R bin/image-server
 
 COPY sample_images/public/ /opt/image-server/sample
+RUN chmod -R +r /opt/image-server/sample
 
 EXPOSE 7000
 EXPOSE 7002
