@@ -65,11 +65,11 @@ func varsToHash(vars map[string]string) string {
 }
 
 func isFormatForbidden(format string, sc *core.ServerConfiguration) bool {
-	if format == "" || len(sc.WhitelistedExtensions) == 0 {
+	if format == "" || len(sc.AllowedExtensions) == 0 {
 		return false
 	}
 
-	for _, ext := range sc.WhitelistedExtensions {
+	for _, ext := range sc.AllowedExtensions {
 		if ext == format {
 			return false
 		}
